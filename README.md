@@ -19,7 +19,7 @@
     <td style="text-align: right; border: none; height: 20em;">
         <div style="float: right;" align="left">
           Разработал:</br>
-          Кураедов Дмитрий Витальевич</br>
+          Долгирев Дмитрий Юрьевич</br>
 </div>
     </td>
   </tr>
