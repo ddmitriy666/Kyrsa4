@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ddolgirevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AgentsT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CountryOfAgent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="TOUR" Relationship="Self.FK_TOUR_AgentsT" FromRole="AgentsT" ToRole="TOUR" />
+  </EntityType>
+  <EntityType Name="TOUR">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Agent" Type="Int32" Nullable="false" />
+    <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AgentsT" Relationship="Self.FK_TOUR_AgentsT" FromRole="TOUR" ToRole="AgentsT" />
+  </EntityType>
+  <Association Name="FK_TOUR_AgentsT">
+    <End Role="AgentsT" Type="Self.AgentsT" Multiplicity="1" />
+    <End Role="TOUR" Type="Self.TOUR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AgentsT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TOUR">
+        <PropertyRef Name="Agent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ddolgirevEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AgentsT" EntityType="Self.AgentsT" />
+    <EntitySet Name="TOUR" EntityType="Self.TOUR" />
+    <AssociationSet Name="FK_TOUR_AgentsT" Association="Self.FK_TOUR_AgentsT">
+      <End Role="AgentsT" EntitySet="AgentsT" />
+      <End Role="TOUR" EntitySet="TOUR" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
