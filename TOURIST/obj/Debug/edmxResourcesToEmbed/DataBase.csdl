@@ -1,0 +1,628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ddolgirevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AgentsT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CountryOfAgent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="TOUR" Relationship="Self.FK_TOUR_AgentsT" FromRole="AgentsT" ToRole="TOUR" />
+  </EntityType>
+  <EntityType Name="TOUR">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Agent" Type="Int32" Nullable="false" />
+    <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AgentsT" Relationship="Self.FK_TOUR_AgentsT" FromRole="TOUR" ToRole="AgentsT" />
+  </EntityType>
+  <Association Name="FK_TOUR_AgentsT">
+    <End Role="AgentsT" Type="Self.AgentsT" Multiplicity="1" />
+    <End Role="TOUR" Type="Self.TOUR" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AgentsT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TOUR">
+        <PropertyRef Name="Agent" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ddolgirevEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AgentsT" EntityType="Self.AgentsT" />
+    <EntitySet Name="TOUR" EntityType="Self.TOUR" />
+    <AssociationSet Name="FK_TOUR_AgentsT" Association="Self.FK_TOUR_AgentsT">
+      <End Role="AgentsT" EntitySet="AgentsT" />
+      <End Role="TOUR" EntitySet="TOUR" />
+    </AssociationSet>
+    <EntitySet Name="Agent" EntityType="ddolgirevModel.Agent" />
+    <EntitySet Name="AgentPriorityHistory" EntityType="ddolgirevModel.AgentPriorityHistory" />
+    <EntitySet Name="Agents" EntityType="ddolgirevModel.Agents" />
+    <EntitySet Name="AgentType" EntityType="ddolgirevModel.AgentType" />
+    <EntitySet Name="Appartments" EntityType="ddolgirevModel.Appartments" />
+    <EntitySet Name="Cities" EntityType="ddolgirevModel.Cities" />
+    <EntitySet Name="Clients" EntityType="ddolgirevModel.Clients" />
+    <EntitySet Name="Material" EntityType="ddolgirevModel.Material" />
+    <EntitySet Name="MaterialCountHistory" EntityType="ddolgirevModel.MaterialCountHistory" />
+    <EntitySet Name="MaterialType" EntityType="ddolgirevModel.MaterialType" />
+    <EntitySet Name="Needs" EntityType="ddolgirevModel.Needs" />
+    <EntitySet Name="Offers" EntityType="ddolgirevModel.Offers" />
+    <EntitySet Name="Product" EntityType="ddolgirevModel.Product" />
+    <EntitySet Name="ProductCostHistory" EntityType="ddolgirevModel.ProductCostHistory" />
+    <EntitySet Name="ProductMaterial" EntityType="ddolgirevModel.ProductMaterial" />
+    <EntitySet Name="ProductSale" EntityType="ddolgirevModel.ProductSale" />
+    <EntitySet Name="ProductType" EntityType="ddolgirevModel.ProductType" />
+    <EntitySet Name="Shop" EntityType="ddolgirevModel.Shop" />
+    <EntitySet Name="Streets" EntityType="ddolgirevModel.Streets" />
+    <EntitySet Name="Supplier" EntityType="ddolgirevModel.Supplier" />
+    <EntitySet Name="sysdiagrams" EntityType="ddolgirevModel.sysdiagrams" />
+    <AssociationSet Name="FK_Agent_AgentType" Association="ddolgirevModel.FK_Agent_AgentType">
+      <End Role="AgentType" EntitySet="AgentType" />
+      <End Role="Agent" EntitySet="Agent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AgentPriorityHistory_Agent" Association="ddolgirevModel.FK_AgentPriorityHistory_Agent">
+      <End Role="Agent" EntitySet="Agent" />
+      <End Role="AgentPriorityHistory" EntitySet="AgentPriorityHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSale_Agent" Association="ddolgirevModel.FK_ProductSale_Agent">
+      <End Role="Agent" EntitySet="Agent" />
+      <End Role="ProductSale" EntitySet="ProductSale" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shop_Agent" Association="ddolgirevModel.FK_Shop_Agent">
+      <End Role="Agent" EntitySet="Agent" />
+      <End Role="Shop" EntitySet="Shop" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Needs_Agents" Association="ddolgirevModel.FK_Needs_Agents">
+      <End Role="Agents" EntitySet="Agents" />
+      <End Role="Needs" EntitySet="Needs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Offers_Agents" Association="ddolgirevModel.FK_Offers_Agents">
+      <End Role="Agents" EntitySet="Agents" />
+      <End Role="Offers" EntitySet="Offers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Apartments_cities" Association="ddolgirevModel.FK_Apartments_cities">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Appartments" EntitySet="Appartments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Apartments_streets" Association="ddolgirevModel.FK_Apartments_streets">
+      <End Role="Streets" EntitySet="Streets" />
+      <End Role="Appartments" EntitySet="Appartments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Offers_Apartments" Association="ddolgirevModel.FK_Offers_Apartments">
+      <End Role="Appartments" EntitySet="Appartments" />
+      <End Role="Offers" EntitySet="Offers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Needs_Clients" Association="ddolgirevModel.FK_Needs_Clients">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Needs" EntitySet="Needs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Offers_Clients" Association="ddolgirevModel.FK_Offers_Clients">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="Offers" EntitySet="Offers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_MaterialType" Association="ddolgirevModel.FK_Material_MaterialType">
+      <End Role="MaterialType" EntitySet="MaterialType" />
+      <End Role="Material" EntitySet="Material" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MaterialCountHistory_Material" Association="ddolgirevModel.FK_MaterialCountHistory_Material">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="MaterialCountHistory" EntitySet="MaterialCountHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductMaterial_Material" Association="ddolgirevModel.FK_ProductMaterial_Material">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="ProductMaterial" EntitySet="ProductMaterial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_ProductType" Association="ddolgirevModel.FK_Product_ProductType">
+      <End Role="ProductType" EntitySet="ProductType" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCostHistory_Product" Association="ddolgirevModel.FK_ProductCostHistory_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductCostHistory" EntitySet="ProductCostHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductMaterial_Product" Association="ddolgirevModel.FK_ProductMaterial_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductMaterial" EntitySet="ProductMaterial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductSale_Product" Association="ddolgirevModel.FK_ProductSale_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductSale" EntitySet="ProductSale" />
+    </AssociationSet>
+    <AssociationSet Name="MaterialSupplier" Association="ddolgirevModel.MaterialSupplier">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="Supplier" EntitySet="Supplier" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Agent">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="AgentTypeID" Type="Int32" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="INN" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="KPP" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="DirectorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Logo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Priority" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AgentType" Relationship="ddolgirevModel.FK_Agent_AgentType" FromRole="Agent" ToRole="AgentType" />
+    <NavigationProperty Name="AgentPriorityHistory" Relationship="ddolgirevModel.FK_AgentPriorityHistory_Agent" FromRole="Agent" ToRole="AgentPriorityHistory" />
+    <NavigationProperty Name="ProductSale" Relationship="ddolgirevModel.FK_ProductSale_Agent" FromRole="Agent" ToRole="ProductSale" />
+    <NavigationProperty Name="Shop" Relationship="ddolgirevModel.FK_Shop_Agent" FromRole="Agent" ToRole="Shop" />
+  </EntityType>
+  <EntityType Name="AgentPriorityHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgentID" Type="Int32" Nullable="false" />
+    <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PriorityValue" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Agent" Relationship="ddolgirevModel.FK_AgentPriorityHistory_Agent" FromRole="AgentPriorityHistory" ToRole="Agent" />
+  </EntityType>
+  <EntityType Name="Agents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DealShare" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Needs" Relationship="ddolgirevModel.FK_Needs_Agents" FromRole="Agents" ToRole="Needs" />
+    <NavigationProperty Name="Offers" Relationship="ddolgirevModel.FK_Offers_Agents" FromRole="Agents" ToRole="Offers" />
+  </EntityType>
+  <EntityType Name="AgentType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Agent" Relationship="ddolgirevModel.FK_Agent_AgentType" FromRole="AgentType" ToRole="Agent" />
+  </EntityType>
+  <EntityType Name="Appartments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AddressCityId" Type="Int32" Nullable="false" />
+    <Property Name="AddressStreetId" Type="Int32" Nullable="false" />
+    <Property Name="AddressHouse" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AddressHumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Coordinatelatitude" Type="Double" />
+    <Property Name="Coordinatelongitude" Type="Double" />
+    <Property Name="TotalArea" Type="Double" />
+    <Property Name="Rooms" Type="Int32" />
+    <Property Name="Floor" Type="Int32" />
+    <NavigationProperty Name="Cities" Relationship="ddolgirevModel.FK_Apartments_cities" FromRole="Appartments" ToRole="Cities" />
+    <NavigationProperty Name="Streets" Relationship="ddolgirevModel.FK_Apartments_streets" FromRole="Appartments" ToRole="Streets" />
+    <NavigationProperty Name="Offers" Relationship="ddolgirevModel.FK_Offers_Apartments" FromRole="Appartments" ToRole="Offers" />
+  </EntityType>
+  <EntityType Name="Cities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appartments" Relationship="ddolgirevModel.FK_Apartments_cities" FromRole="Cities" ToRole="Appartments" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Needs" Relationship="ddolgirevModel.FK_Needs_Clients" FromRole="Clients" ToRole="Needs" />
+    <NavigationProperty Name="Offers" Relationship="ddolgirevModel.FK_Offers_Clients" FromRole="Clients" ToRole="Offers" />
+  </EntityType>
+  <EntityType Name="Material">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CountInPack" Type="Int32" Nullable="false" />
+    <Property Name="Unit" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="CountInStock" Type="Double" />
+    <Property Name="MinCount" Type="Double" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Cost" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MaterialTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MaterialType" Relationship="ddolgirevModel.FK_Material_MaterialType" FromRole="Material" ToRole="MaterialType" />
+    <NavigationProperty Name="MaterialCountHistory" Relationship="ddolgirevModel.FK_MaterialCountHistory_Material" FromRole="Material" ToRole="MaterialCountHistory" />
+    <NavigationProperty Name="ProductMaterial" Relationship="ddolgirevModel.FK_ProductMaterial_Material" FromRole="Material" ToRole="ProductMaterial" />
+    <NavigationProperty Name="Supplier" Relationship="ddolgirevModel.MaterialSupplier" FromRole="Material" ToRole="Supplier" />
+  </EntityType>
+  <EntityType Name="MaterialCountHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaterialID" Type="Int32" Nullable="false" />
+    <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CountValue" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Material" Relationship="ddolgirevModel.FK_MaterialCountHistory_Material" FromRole="MaterialCountHistory" ToRole="Material" />
+  </EntityType>
+  <EntityType Name="MaterialType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DefectedPercent" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Material" Relationship="ddolgirevModel.FK_Material_MaterialType" FromRole="MaterialType" ToRole="Material" />
+  </EntityType>
+  <EntityType Name="Needs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientId" Type="Int32" Nullable="false" />
+    <Property Name="AgentId" Type="Int32" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="MaxPrice" Type="Int32" />
+    <Property Name="MinPrice" Type="Int32" />
+    <NavigationProperty Name="Agents" Relationship="ddolgirevModel.FK_Needs_Agents" FromRole="Needs" ToRole="Agents" />
+    <NavigationProperty Name="Clients" Relationship="ddolgirevModel.FK_Needs_Clients" FromRole="Needs" ToRole="Clients" />
+  </EntityType>
+  <EntityType Name="Offers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientId" Type="Int32" Nullable="false" />
+    <Property Name="AgentId" Type="Int32" Nullable="false" />
+    <Property Name="ApartmentId" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Int32" />
+    <NavigationProperty Name="Agents" Relationship="ddolgirevModel.FK_Offers_Agents" FromRole="Offers" ToRole="Agents" />
+    <NavigationProperty Name="Appartments" Relationship="ddolgirevModel.FK_Offers_Apartments" FromRole="Offers" ToRole="Appartments" />
+    <NavigationProperty Name="Clients" Relationship="ddolgirevModel.FK_Offers_Clients" FromRole="Offers" ToRole="Clients" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProductTypeID" Type="Int32" />
+    <Property Name="ArticleNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ProductionPersonCount" Type="Int32" />
+    <Property Name="ProductionWorkshopNumber" Type="Int32" />
+    <Property Name="MinCostForAgent" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <NavigationProperty Name="ProductType" Relationship="ddolgirevModel.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
+    <NavigationProperty Name="ProductCostHistory" Relationship="ddolgirevModel.FK_ProductCostHistory_Product" FromRole="Product" ToRole="ProductCostHistory" />
+    <NavigationProperty Name="ProductMaterial" Relationship="ddolgirevModel.FK_ProductMaterial_Product" FromRole="Product" ToRole="ProductMaterial" />
+    <NavigationProperty Name="ProductSale" Relationship="ddolgirevModel.FK_ProductSale_Product" FromRole="Product" ToRole="ProductSale" />
+  </EntityType>
+  <EntityType Name="ProductCostHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CostValue" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <NavigationProperty Name="Product" Relationship="ddolgirevModel.FK_ProductCostHistory_Product" FromRole="ProductCostHistory" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductMaterial">
+    <Key>
+      <PropertyRef Name="ProductID" />
+      <PropertyRef Name="MaterialID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="MaterialID" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Double" />
+    <NavigationProperty Name="Material" Relationship="ddolgirevModel.FK_ProductMaterial_Material" FromRole="ProductMaterial" ToRole="Material" />
+    <NavigationProperty Name="Product" Relationship="ddolgirevModel.FK_ProductMaterial_Product" FromRole="ProductMaterial" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductSale">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgentID" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="SaleDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ProductCount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Agent" Relationship="ddolgirevModel.FK_ProductSale_Agent" FromRole="ProductSale" ToRole="Agent" />
+    <NavigationProperty Name="Product" Relationship="ddolgirevModel.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductType">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DefectedPercent" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="ddolgirevModel.FK_Product_ProductType" FromRole="ProductType" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Shop">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="AgentID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Agent" Relationship="ddolgirevModel.FK_Shop_Agent" FromRole="Shop" ToRole="Agent" />
+  </EntityType>
+  <EntityType Name="Streets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Appartments" Relationship="ddolgirevModel.FK_Apartments_streets" FromRole="Streets" ToRole="Appartments" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="INN" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="QualityRating" Type="Int32" />
+    <Property Name="SupplierType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Material" Relationship="ddolgirevModel.MaterialSupplier" FromRole="Supplier" ToRole="Material" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Agent_AgentType">
+    <End Type="ddolgirevModel.AgentType" Role="AgentType" Multiplicity="1" />
+    <End Type="ddolgirevModel.Agent" Role="Agent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AgentType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agent">
+        <PropertyRef Name="AgentTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AgentPriorityHistory_Agent">
+    <End Type="ddolgirevModel.Agent" Role="Agent" Multiplicity="1" />
+    <End Type="ddolgirevModel.AgentPriorityHistory" Role="AgentPriorityHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agent">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AgentPriorityHistory">
+        <PropertyRef Name="AgentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSale_Agent">
+    <End Type="ddolgirevModel.Agent" Role="Agent" Multiplicity="1" />
+    <End Type="ddolgirevModel.ProductSale" Role="ProductSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agent">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductSale">
+        <PropertyRef Name="AgentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shop_Agent">
+    <End Type="ddolgirevModel.Agent" Role="Agent" Multiplicity="1" />
+    <End Type="ddolgirevModel.Shop" Role="Shop" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agent">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Shop">
+        <PropertyRef Name="AgentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Needs_Agents">
+    <End Type="ddolgirevModel.Agents" Role="Agents" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Needs" Role="Needs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agents">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Needs">
+        <PropertyRef Name="AgentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Offers_Agents">
+    <End Type="ddolgirevModel.Agents" Role="Agents" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Offers" Role="Offers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agents">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Offers">
+        <PropertyRef Name="AgentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Apartments_cities">
+    <End Type="ddolgirevModel.Cities" Role="Cities" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Appartments" Role="Appartments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appartments">
+        <PropertyRef Name="AddressCityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Apartments_streets">
+    <End Type="ddolgirevModel.Streets" Role="Streets" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Appartments" Role="Appartments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Streets">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appartments">
+        <PropertyRef Name="AddressStreetId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Offers_Apartments">
+    <End Type="ddolgirevModel.Appartments" Role="Appartments" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Offers" Role="Offers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Appartments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Offers">
+        <PropertyRef Name="ApartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Needs_Clients">
+    <End Type="ddolgirevModel.Clients" Role="Clients" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Needs" Role="Needs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Needs">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Offers_Clients">
+    <End Type="ddolgirevModel.Clients" Role="Clients" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ddolgirevModel.Offers" Role="Offers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Offers">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_MaterialType">
+    <End Type="ddolgirevModel.MaterialType" Role="MaterialType" Multiplicity="1" />
+    <End Type="ddolgirevModel.Material" Role="Material" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MaterialType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material">
+        <PropertyRef Name="MaterialTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MaterialCountHistory_Material">
+    <End Type="ddolgirevModel.Material" Role="Material" Multiplicity="1" />
+    <End Type="ddolgirevModel.MaterialCountHistory" Role="MaterialCountHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MaterialCountHistory">
+        <PropertyRef Name="MaterialID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductMaterial_Material">
+    <End Type="ddolgirevModel.Material" Role="Material" Multiplicity="1" />
+    <End Type="ddolgirevModel.ProductMaterial" Role="ProductMaterial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductMaterial">
+        <PropertyRef Name="MaterialID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_ProductType">
+    <End Type="ddolgirevModel.ProductType" Role="ProductType" Multiplicity="0..1" />
+    <End Type="ddolgirevModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductType">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ProductTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCostHistory_Product">
+    <End Type="ddolgirevModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ddolgirevModel.ProductCostHistory" Role="ProductCostHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductCostHistory">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductMaterial_Product">
+    <End Type="ddolgirevModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ddolgirevModel.ProductMaterial" Role="ProductMaterial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductMaterial">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductSale_Product">
+    <End Type="ddolgirevModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ddolgirevModel.ProductSale" Role="ProductSale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductSale">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MaterialSupplier">
+    <End Type="ddolgirevModel.Material" Role="Material" Multiplicity="*" />
+    <End Type="ddolgirevModel.Supplier" Role="Supplier" Multiplicity="*" />
+  </Association>
+</Schema>
