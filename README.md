@@ -233,12 +233,503 @@ ER-модель представляет собой формальную кон�
 
 ##### Код разметки окна:
 ```xml
+<Window x:Class="TOURIST.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TOURIST"
+        mc:Ignorable="d"
+        Title="Главная страница" 
+        Height="450" Width="800"
+        MinHeight="800" MinWidth="1000"
+        Background="#FF9BC8E6">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="463*"/>
+            <ColumnDefinition Width="380*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel 
+            Orientation="Vertical"
+            VerticalAlignment="Top"
+            Width="150">
+            <Button 
+                x:Name="AddButton"
+                Content="Добавить"
+                Click="AddButton_Click"
+                VerticalAlignment="Top"
+                Background="Yellow"
+                FontSize="20"/>
+        </StackPanel>
+        <Button  
+            x:Name="Exit" 
+            Content="Выход" 
+            Click="Exit_Click" 
+            VerticalAlignment="Bottom"
+            Background="Yellow"
+            FontSize="20"/>
+
+        <Grid Grid.Column="1" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <WrapPanel 
+                Orientation="Horizontal"
+                ItemHeight="50">
+
+                <Label 
+                    Content="Сортировка: "
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"/>
+
+                <RadioButton
+                    GroupName="Rooms"
+                    Tag="1"
+                    Content="А-Я"
+                    IsChecked="True"
+                    Checked="RadioButton_Checked"
+                    VerticalAlignment="Center"
+                    Margin="0 0 10 0"/>
+                <RadioButton
+                    GroupName="Rooms"
+                    Tag="2"
+                    Content="Я-А"
+                    Checked="RadioButton_Checked"
+                    VerticalAlignment="Center"/>
+
+                <Label 
+                    Content="Фильтр: "
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"/>
+
+                <ComboBox
+                    x:Name="FilterTypeComboBox"
+                    SelectedIndex="0"
+                    VerticalContentAlignment="Center"
+                    MinWidth="200"
+                    MinHeight="10"
+                    SelectionChanged="FilterTypeComboBox_SelectionChanged"
+                    ItemsSource="{Binding ProductTypeList}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+
+                <Label 
+                    Margin="20 0 0 0"
+                    Content="Поиск:" 
+                    VerticalAlignment="Center"/>
+                <TextBox
+                    Width="200"
+                    VerticalAlignment="Center"
+                    x:Name="SearchFilterTextBox" 
+                    KeyUp="SearchFilter_KeyUp"
+                    BorderThickness="2"/>
+            </WrapPanel>
+
+            <ListView
+                Grid.Row="1"
+                ItemsSource="{Binding ProductList}"
+                x:Name="ToursListView"
+                BorderThickness="0"
+                MouseDoubleClick="TOURListView_MouseDoubleClick">
+
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Cursor="Hand" FontFamily="Century Gothic" Header="Удалить" x:Name="DeleteButton" Click="DeleteButton_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter
+                            Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                            BorderThickness="1" 
+                            BorderBrush="Black" 
+                            CornerRadius="10">
+                            <Grid 
+                                Margin="10"
+                                HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="64"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image
+                                    Width="64" 
+                                    Height="64"
+                                    Source="{Binding Path=ImagePreview}" />
+
+                                <Grid Grid.Column="1" Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ProductType.Title}"/>
+                                        <TextBlock Text=" | " />
+                                        <TextBlock Text="{Binding Title}" />
+                                    </StackPanel>
+
+                                    <TextBlock 
+                                        Text="{Binding ArticleNumber}"
+                                        Grid.Row="1"/>
+                                </Grid>
+
+                                <TextBlock 
+                                    Text="{Binding MinCostForAgent}"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Right"
+                                    Margin="10"/>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+            <StackPanel
+                Grid.Row="2"
+                HorizontalAlignment="Right" 
+                Orientation="Horizontal">
+                <Button 
+                    Content="Назад" 
+                    Name="PrevPage"
+                    Click="PrevPage_Click"
+                    Background="Yellow"
+                    FontSize="20"/>
+                <TextBlock 
+                    Text="{Binding CurrentPage, StringFormat=Страница {0}}"
+                    VerticalAlignment="Center"
+                    Margin="5"
+                    FontSize="14"/>
+                <Button
+                    Content="Вперёд"
+                    Name="NextPage"
+                    Click="NextPage_Click"
+                    Background="Yellow"
+                    FontSize="20"/>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>
 
 ```
 ##### Логика главного окна:
 
 ```cs
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
+namespace TOURIST
+{
+    /// <summary>
+    /// Логика взаимодействия для MainWindow.xaml
+    /// </summary>
+    public partial class Product
+    {
+        public Uri ImagePreview
+        {
+            get
+            {
+                var imageName = Environment.CurrentDirectory + Image ?? "";
+                return System.IO.File.Exists(imageName) ? new Uri(imageName) : new Uri("pack://application:,,,/picture.png");
+            }
+        }
+    }
+    public partial class MainWindow : Window, INotifyPropertyChanged
+    {
+
+        private IEnumerable<Product> _ProductList;
+
+        private int _CurrentPage = 1;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int CurrentPage
+        {
+            get
+            {
+                return _CurrentPage;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    if ((_ProductList.Count() % 10) == 0)
+                    {
+                        if (value <= _ProductList.Count() / 10)
+                        {
+                            _CurrentPage = value;
+                            Invalidate();
+                        }
+                    }
+                    else
+                    {
+                        if (value <= (_ProductList.Count() / 10) + 1)
+                        {
+                            _CurrentPage = value;
+                            Invalidate();
+                        }
+                    }
+                }
+            }
+        }
+
+        private string _SearchFilter = "";
+        public string SearchFilter
+        {
+            get
+            {
+                return _SearchFilter;
+            }
+            set
+            {
+                _SearchFilter = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ApartmentsList"));
+                }
+            }
+        }
+
+        private void SearchFilter_KeyUp(object sender, KeyEventArgs e)
+        {
+            SearchFilter = SearchFilterTextBox.Text;
+            Invalidate();
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+            }
+        }
+
+        private bool _SortList = true;
+        public bool SortList
+        {
+            get
+            {
+                return _SortList;
+            }
+            set
+            {
+                _SortList = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            SortList = (sender as RadioButton).Tag.ToString() == "1";
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+            }
+        }
+
+        private void Invalidate()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ProductList"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentPage"));
+        }
+
+        public IEnumerable<Product> ProductList
+        {
+            get
+            {
+                var Result = _ProductList;
+
+                if (_ProductTypeFilterValue > 0)
+                    Result = Result.Where(ai => ai.ProductTypeID == _ProductTypeFilterValue);
+
+                if (SearchFilter != "")
+                    Result = Result.Where(ai => ai.Title.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                if (SortList) Result = Result.OrderBy(ai => ai.Title);
+                else Result = Result.OrderByDescending(ai => ai.Title);
+
+                return Result.Skip((CurrentPage - 1) * 10).Take(10);
+
+
+
+
+            }
+            set
+            {
+                _ProductList = value;
+
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+        }
+
+        public IEnumerable<Product> ProductsList
+        {
+            get
+            {
+                var Result = _ProductList;
+
+                if (SearchFilter != "")
+                    Result = Result.Where(ai => ai.Title.IndexOf(SearchFilter, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                return Result;
+            }
+            set
+            {
+                _ProductList = value;
+            }
+        }
+
+        public List<ProductType> ProductTypeList { get; set; }
+
+        private int _ProductTypeFilterValue = 0;
+        public int ProductTypeFilterValue
+        {
+            get
+            {
+                return _ProductTypeFilterValue;
+            }
+            set
+            {
+                _ProductTypeFilterValue = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+        }
+        public MainWindow()
+        {
+            InitializeComponent();
+            DataContext = this;
+            ProductList = Core.DB.Product.ToArray();
+            ProductTypeList = Core.DB.ProductType.ToList();
+            ProductTypeList.Insert(0, new ProductType { Title = "Все агенты" });
+        }
+
+
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void PrevPage_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentPage--;
+        }
+
+        private void NextPage_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentPage++;
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var addWindow = new AddWindow(new Product());
+            if (addWindow.ShowDialog() == true)
+            {
+                ProductList = Core.DB.Product.ToArray();
+            }
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+            }
+
+        }
+
+        private void TOURListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var EditTourWindow = new AddWindow(ToursListView.SelectedItem as Product);
+            if (EditTourWindow.ShowDialog() == true)
+            {
+                ProductList = Core.DB.Product.ToArray();
+            }
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var DeleteProduct = ToursListView.SelectedItem as Product;
+            try
+            {
+                Core.DB.Product.Remove(DeleteProduct);
+                Core.DB.SaveChanges();
+
+                MessageBox.Show($"Удалено!");
+
+                ProductList = Core.DB.Product.ToArray();
+
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+                }
+            }
+            catch { }
+
+        }
+
+        private void FilterTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProductTypeFilterValue = (FilterTypeComboBox.SelectedItem as ProductType).ID;
+
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs("ProductList"));
+            }
+
+        }
+
+        private void PrinyatBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show($"Принято!");
+        }
+    }
+}
 ```
 
 #### Окно редактирования:
@@ -246,11 +737,130 @@ ER-модель представляет собой формальную кон�
 
 ##### Код разметки окна:
 ```xml
+<Window x:Class="TOURIST.AddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TOURIST"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        ResizeMode="NoResize"
+        Background="#FF9BC8E6">
+    <Grid>
+        <StackPanel>
+            <Label Content="Агент:"/>
+            <ComboBox
+                ItemsSource="{Binding productTypesss}"
+                SelectedItem="{Binding CurrentProduct.ProductType}"
+                FontFamily="Century Gothic"
+                Cursor="Hand">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Cursor="Hand" Content="{Binding Title}" FontFamily="Century Gothic"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label 
+                Content="Страна и город:"/>
+            <TextBox 
+                Height="20"
+                Text="{Binding CurrentProduct.Title}"/>
+            <Label
+                Content="Артикул:"/>
+            <TextBox 
+                Height="20" 
+                Text="{Binding CurrentProduct.ArticleNumber}"/>
+            <Label 
+                Content="Цена:"/>
+            <TextBox 
+                Height="20"
+                Text="{Binding CurrentProduct.MinCostForAgent}"/>
+        </StackPanel>
+        <StackPanel 
+                VerticalAlignment="Bottom">
 
+            <Button
+                x:Name="SaveButton" 
+                Content="Сохранить"
+                Click="SaveButton_Click"
+                Margin="3"
+                Background="Yellow"
+                FontSize="20"/>
+            <Button 
+                x:Name="BackButton"
+                Content="Назад"
+                Click="BackButton_Click"
+                Margin="3"
+                Background="Yellow"
+                FontSize="20"/>
+        </StackPanel>
+    </Grid>
+</Window>
 ```
 
 ```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
+namespace TOURIST
+{
+    /// <summary>
+    /// Логика взаимодействия для AddWindow.xaml
+    /// </summary>
+    public partial class AddWindow : Window
+    {
+        public static dEntities DB = new dEntities();
+        public Product CurrentProduct { get; set; }
+        public IEnumerable<ProductType> productTypesss { get; set; }
+
+
+        public AddWindow(Product productsss)
+        {
+            InitializeComponent();
+            DataContext = this;
+            CurrentProduct = productsss;
+            productTypesss = Core.DB.ProductType.ToArray();
+        }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (CurrentProduct.ProductType == null)
+                    throw new Exception("Не выбран тип");
+
+                if (CurrentProduct.ID == 0)
+                    Core.DB.Product.Add(CurrentProduct);
+
+                Core.DB.SaveChanges();
+
+                DialogResult = true;
+
+                MessageBox.Show($"Сохранено");
+            }
+            catch
+            {
+                MessageBox.Show($"Ошибка");
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
 ```
 # Заключение
 
